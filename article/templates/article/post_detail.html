@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block context %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main' %}">Main</a></li>
+            <li class="breadcrumb-item text-info">{{ post.title }}</li>
+        </ol>
+    </nav>
+    <div class="container">
+        <div class="row center">
+            <div class="col-6 col-md-10 col-lg-12">
+                {% autoescape off %}
+                    <div class="mb-4">
+                        <h1>{{ post.title }}</h1>
+                        <h4>{{ post.body|safe }}</h4>
+                        <h6 class="text-muted">{{ post.author }} | {{ post.created }}</h6>
+                        <button class="btn btn-primary" id="like">Like {{ post.likes.count }}</button>
+                        <button id="show-comment" class="btn btn-dark">Add Comment</button>
+                    </div>
+                    <div class="spinner-border d-none"  id="preloader" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div id="show_comment_all" class="d-none mb-3">
+                        <h4>Send Comments</h4>
+                        <form id="send-form">
+                            <input id="post-id" class="form-control" name="{{ post.id }}" type="hidden">
+                            <div class="form-group">
+                                <label for="comment-author">Sender</label>
+                                <input class="form-control" id="comment-author" name="comment-author" type="text">
+                            </div>
+                            <div class="form-group">
+                            <textarea class="form-control" id="comment-body" name="comment-body" cols="30"
+                                      rows="5"></textarea>
+                            </div>
+                            <button id="hide-comment" class="btn btn-outline-info btn-lg" type="submit">Send</button>
+                        </form>
+                    </div>
+                    <div class="alert alert-success d-none" role="alert" id="comment-added">
+                        Comment added
+                    </div>
+                    <div class="" id="comments">
+                        {% csrf_token %}
+                        {% for comment in post.comments.all %}
+                            <div id="add-comment" class="">
+                                <hr>
+                                <h4><span class="text-info">Author comment:</span> {{ comment.author_comment }}</h4>
+                                <p><span class="text-info">Message:</span> {{ comment.body }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

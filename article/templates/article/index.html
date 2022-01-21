@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block context %}
+    <h1 class="mb-5">Hello, it's my Blog </h1>
+    <div class="container">
+        <div class="row">
+
+            {% for post in post_list %}
+                <div class="col-12 col-md-6 col-lg-6">
+                    <hr>
+                    <a href="{% url 'post_detail' post.slug %}" ><h1> {{ post.title }}</h1></a>
+                    <h3 class="text-info">Author: {{ post.author }}</h3>
+                    <h4 class="text-secondary">Published: {{ post.created }}</h4>
+                    <h6>{{ post.body|safe }}</h6>
+                    <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-info">Read More</a>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
